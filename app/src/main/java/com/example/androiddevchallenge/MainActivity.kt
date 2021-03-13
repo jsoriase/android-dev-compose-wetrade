@@ -19,6 +19,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.toArgb
@@ -31,6 +32,7 @@ import com.example.androiddevchallenge.ui.screen.WelcomeScreen
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
 class MainActivity : AppCompatActivity() {
+    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(
@@ -51,6 +53,7 @@ class MainActivity : AppCompatActivity() {
 }
 
 // Start building your app here!
+@ExperimentalMaterialApi
 @Composable
 fun MyApp() {
     val navController = rememberNavController()

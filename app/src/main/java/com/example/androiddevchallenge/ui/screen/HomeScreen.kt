@@ -31,8 +31,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.BottomSheetScaffold
+import androidx.compose.material.BottomSheetState
+import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
@@ -40,6 +44,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -57,119 +62,137 @@ import com.example.androiddevchallenge.ui.composables.StockItem
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import com.example.androiddevchallenge.ui.theme.green
 
+@ExperimentalMaterialApi
 @Composable
 fun HomeScreen(navController: NavController) {
     Surface(color = MaterialTheme.colors.background) {
 
-        Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-            ) {
-                Text(
-                    "ACCOUNT",
-                    style = MaterialTheme.typography.button,
-                    color = Color.White,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .firstBaselineToTopAndBottom(64.dp, 8.dp)
+            val bottomSheetScaffoldState = rememberBottomSheetScaffoldState(
+                bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed)
+            )
 
-                )
-                Text(
-                    "WATCHLIST",
-                    style = MaterialTheme.typography.button,
-                    color = Color.White.copy(alpha = 0.6f),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .firstBaselineToTopAndBottom(64.dp, 8.dp)
-                )
-                Text(
-                    "PROFILE",
-                    style = MaterialTheme.typography.button,
-                    color = Color.White.copy(alpha = 0.6f),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .firstBaselineToTopAndBottom(64.dp, 8.dp)
-                )
-            }
-            Text(
-                "Balance",
-                style = MaterialTheme.typography.subtitle1,
-                color = Color.White,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .firstBaselineToTopAndBottom(32.dp, 8.dp)
-                    .fillMaxWidth()
-            )
-            Text(
-                "$73,589.01",
-                style = MaterialTheme.typography.h1,
-                color = Color.White,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .firstBaselineToTopAndBottom(48.dp, 24.dp)
-                    .fillMaxWidth()
-            )
-            Text(
-                "+412.35 today",
-                style = MaterialTheme.typography.subtitle1,
-                color = green,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .firstBaselineToTopAndBottom(16.dp, 32.dp)
-                    .fillMaxWidth()
-            )
-            Button(
-                onClick = { },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp)
-                    .padding(horizontal = 16.dp),
-                shape = RoundedCornerShape(50),
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = MaterialTheme.colors.primary,
-                    contentColor = MaterialTheme.colors.onPrimary
-                )
-            ) {
-                Text(
-                    text = "TRANSACT",
-                    style = MaterialTheme.typography.button,
-                    color = MaterialTheme.colors.onPrimary
-                )
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-            LazyRow(modifier = Modifier.padding(start = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(end = 16.dp)) {
-                items(HomeStaticData.homeGraphicOptions) { graphicOption ->
-                    HomeOutlinedButton(graphicOption.name, graphicOption.expandable)
-                }
-            }
-            Image(
-                painter = painterResource(id = R.drawable.ic_home_illos),
-                contentDescription = null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(top = 16.dp),
-                contentScale = ContentScale.FillWidth
-            )
-            Spacer(modifier = Modifier.height(32.dp))
-            Surface(color = MaterialTheme.colors.surface) {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        "Positions",
-                        style = MaterialTheme.typography.subtitle1,
-                        color = MaterialTheme.colors.onSurface,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .firstBaselineToTopAndBottom(40.dp, 24.dp)
-                            .fillMaxWidth()
-                    )
-                    for (stock in HomeStaticData.stocks) {
-                        StockItem(stockData = stock)
+            BottomSheetScaffold(
+                scaffoldState = bottomSheetScaffoldState,
+                sheetShape = RoundedCornerShape(0.dp),
+                sheetPeekHeight = 50.dp,
+                sheetContent = {
+                    Surface(color = MaterialTheme.colors.surface) {
+                        Column(modifier = Modifier.fillMaxSize()) {
+                            Text(
+                                "Positions",
+                                style = MaterialTheme.typography.subtitle1,
+                                color = MaterialTheme.colors.onSurface,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .firstBaselineToTopAndBottom(40.dp, 24.dp)
+                                    .fillMaxWidth()
+                            )
+                            for (stock in HomeStaticData.stocks) {
+                                StockItem(stockData = stock)
+                            }
+                        }
                     }
                 }
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 8.dp),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                    ) {
+                        Text(
+                            "ACCOUNT",
+                            style = MaterialTheme.typography.button,
+                            color = Color.White,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .firstBaselineToTopAndBottom(64.dp, 8.dp)
+
+                        )
+                        Text(
+                            "WATCHLIST",
+                            style = MaterialTheme.typography.button,
+                            color = Color.White.copy(alpha = 0.6f),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .firstBaselineToTopAndBottom(64.dp, 8.dp)
+                        )
+                        Text(
+                            "PROFILE",
+                            style = MaterialTheme.typography.button,
+                            color = Color.White.copy(alpha = 0.6f),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .firstBaselineToTopAndBottom(64.dp, 8.dp)
+                        )
+                    }
+                    Text(
+                        "Balance",
+                        style = MaterialTheme.typography.subtitle1,
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .firstBaselineToTopAndBottom(32.dp, 8.dp)
+                            .fillMaxWidth()
+                    )
+                    Text(
+                        "$73,589.01",
+                        style = MaterialTheme.typography.h1,
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .firstBaselineToTopAndBottom(48.dp, 24.dp)
+                            .fillMaxWidth()
+                    )
+                    Text(
+                        "+412.35 today",
+                        style = MaterialTheme.typography.subtitle1,
+                        color = green,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .firstBaselineToTopAndBottom(16.dp, 32.dp)
+                            .fillMaxWidth()
+                    )
+                    Button(
+                        onClick = { },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(48.dp)
+                            .padding(horizontal = 16.dp),
+                        shape = RoundedCornerShape(50),
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = MaterialTheme.colors.primary,
+                            contentColor = MaterialTheme.colors.onPrimary
+                        )
+                    ) {
+                        Text(
+                            text = "TRANSACT",
+                            style = MaterialTheme.typography.button,
+                            color = MaterialTheme.colors.onPrimary
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    LazyRow(modifier = Modifier.padding(start = 16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), contentPadding = PaddingValues(end = 16.dp)) {
+                        items(HomeStaticData.homeGraphicOptions) { graphicOption ->
+                            HomeOutlinedButton(graphicOption.name, graphicOption.expandable)
+                        }
+                    }
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_home_illos),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .padding(top = 16.dp),
+                        contentScale = ContentScale.FillWidth
+                    )
+                    Spacer(modifier = Modifier.height(32.dp))
+                    //TODO: This is the space the bottomSheet should peek
             }
         }
     }
@@ -201,6 +224,7 @@ fun HomeOutlinedButton(text: String, expandable: Boolean) {
     }
 }
 
+@ExperimentalMaterialApi
 @Preview("Light Theme", widthDp = 360, heightDp = 640)
 @Composable
 fun HomeScreenLightPreview() {
@@ -210,6 +234,7 @@ fun HomeScreenLightPreview() {
     }
 }
 
+@ExperimentalMaterialApi
 @Preview("Dark Theme", widthDp = 360, heightDp = 640)
 @Composable
 fun HomeScreenDarkPreview() {
