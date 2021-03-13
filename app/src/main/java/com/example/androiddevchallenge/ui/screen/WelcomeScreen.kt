@@ -17,7 +17,6 @@ package com.example.androiddevchallenge.ui.screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -101,7 +100,7 @@ fun WelcomeScreen(navController: NavController) {
                     OutlinedButton(
                         onClick = { navController.navigate("login") },
                         border = BorderStroke(1.dp, MaterialTheme.colors.primary),
-                        shape = RoundedCornerShape(50), //50% percent
+                        shape = RoundedCornerShape(50), // 50% percent
                         modifier = Modifier
                             .weight(1f)
                             .height(48.dp),
@@ -119,8 +118,6 @@ fun WelcomeScreen(navController: NavController) {
                 }
                 Spacer(modifier = Modifier.height(32.dp))
             }
-
-
         }
     }
 }

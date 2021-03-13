@@ -20,7 +20,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -37,10 +36,8 @@ import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Password
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.MailOutline
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -63,9 +60,11 @@ fun LoginScreen(navController: NavController) {
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            Box(modifier = Modifier
-                .height(304.dp)
-                .fillMaxWidth()) {
+            Box(
+                modifier = Modifier
+                    .height(304.dp)
+                    .fillMaxWidth()
+            ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_login_bg),
                     contentDescription = null,
@@ -89,7 +88,7 @@ fun LoginScreen(navController: NavController) {
             LoginTextField("Password", Icons.Filled.Password)
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { navController.navigate("home")},
+                onClick = { navController.navigate("home") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp)
@@ -106,9 +105,7 @@ fun LoginScreen(navController: NavController) {
                     color = MaterialTheme.colors.onPrimary
                 )
             }
-
         }
-
     }
 }
 

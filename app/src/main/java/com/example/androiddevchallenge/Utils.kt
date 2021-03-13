@@ -39,3 +39,24 @@ fun Modifier.firstBaselineToTop(
         placeable.place(0, placeableY)
     }
 }
+
+fun Modifier.firstBaselineToTopAndBottom(
+    firstBaselineToTop: Dp,
+    firstBaselineToBottom: Dp,
+) = Modifier.layout { measurable, constraints ->
+
+    val placeable = measurable.measure(constraints)
+
+    // Check the composable has a first baseline
+    check(placeable[FirstBaseline] != AlignmentLine.Unspecified)
+    val firstBaseline = placeable[FirstBaseline]
+
+    // Height of the composable with padding - first baseline
+    val placeableY = firstBaselineToTop.roundToPx() - firstBaseline
+
+    val height = placeable.height + placeableY + firstBaselineToBottom.roundToPx()
+    layout(placeable.width, height) {
+        // Where the composable gets placed
+        placeable.placeRelative(0, placeableY)
+    }
+}
